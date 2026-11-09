@@ -73,12 +73,26 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       min-height: 44px; padding: 0 18px; border-radius: 10px; font-size: .9375rem; font-weight: 500;
-      transition: background .2s, border-color .2s, color .2s, transform .2s;
+      position: relative; overflow: hidden; isolation: isolate;
+      transition: background .25s, border-color .25s, color .25s, box-shadow .3s, transform .25s cubic-bezier(.2,.7,.2,1);
     }
-    .btn-primary { background: #fff; color: #000; }
-    .btn-primary:hover { background: #d9d9d9; }
+    .btn-primary { background: #fff; color: #000; box-shadow: 0 0 0 0 rgba(255,255,255,0); }
     .btn-ghost { border: 1px solid var(--border-strong); color: var(--text); background: rgba(255,255,255,.02); }
-    .btn-ghost:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.05); }
+    /* light sheen sweeping across on hover */
+    .btn::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.14) 50%, transparent 70%);
+      transform: translateX(-120%); transition: transform .6s ease; }
+    .btn-primary::after { background: linear-gradient(110deg, transparent 30%, rgba(0,0,0,.07) 50%, transparent 70%); }
+    .btn .arr, .btn .kbd { display: inline-block; transition: transform .25s cubic-bezier(.2,.7,.2,1); }
+    @media (hover: hover) {
+      .btn:hover { transform: translateY(-1px); }
+      .btn:hover::after { transform: translateX(120%); }
+      .btn-primary:hover { background: #f2f2f2; box-shadow: 0 6px 24px -6px rgba(255,255,255,.35); }
+      .btn-ghost:hover { border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 6px 20px -8px rgba(34,197,94,.35); }
+      .btn:hover .arr { transform: translate(2px, -2px); }
+      .btn:hover .kbd { transform: translateY(2px); }
+    }
+    .btn:active { transform: translateY(0) scale(.98); transition-duration: .1s; }
     .kbd {
       font-family: var(--mono); font-size: .6875rem; padding: 1px 6px; border-radius: 5px;
       background: rgba(0,0,0,.08); color: inherit; opacity: .6;
@@ -93,7 +107,6 @@
     .nav.scrolled, .menu-open .nav { border-bottom-color: var(--border); background: rgba(0,0,0,.7); }
     .nav-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .logo { font-family: var(--serif); font-size: 1.375rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; min-height: 44px; }
-    .logo-mark { width: 26px; height: 26px; border-radius: 7px; background: #fff; color: #000; display: grid; place-items: center; font-size: .95rem; }
     .nav-links { display: none; gap: 4px; }
     .nav-links a { color: var(--muted); font-size: .875rem; padding: 8px 12px; border-radius: 8px; transition: color .2s; }
     .nav-links a:hover { color: #fff; }
@@ -415,6 +428,41 @@
     .divider::after { content: ""; position: absolute; left: 50%; top: 0; width: min(720px, 100%); height: 220px; transform: translateX(-50%); pointer-events: none;
       background: radial-gradient(50% 100% at 50% 0%, rgba(255,255,255,.075), transparent 70%); }
 
+    /* ---------- CV preview modal ---------- */
+    .cv-modal { width: min(920px, calc(100% - 32px)); height: min(88vh, 1100px); max-width: none; max-height: none; padding: 0; margin: auto;
+      border: 1px solid var(--border-strong); border-radius: 18px; background: var(--surface); color: var(--text); overflow: hidden;
+      box-shadow: 0 40px 120px -20px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.5); }
+    .cv-modal[open] { display: flex; flex-direction: column; animation: cvIn .35s cubic-bezier(.2,.7,.2,1); }
+    .cv-modal::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: fadeIn .3s ease; }
+    @keyframes cvIn { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+    @keyframes fadeIn { from { opacity: 0; } }
+    .cv-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .cv-title-wrap { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .cv-file-ic { width: 36px; height: 36px; flex: none; border-radius: 9px; display: grid; place-items: center; border: 1px solid var(--border-strong); background: linear-gradient(180deg, #1c1c1c, #0a0a0a); }
+    .cv-file-ic svg { width: 18px; height: 18px; color: var(--accent-soft); }
+    .cv-head h2 { margin: 0; font-size: .9375rem; font-weight: 500; }
+    .cv-head .mono { font-size: .75rem; color: var(--subtle); }
+    .cv-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .cv-actions .btn { min-height: 40px; padding: 0 14px; font-size: .875rem; }
+    .cv-close { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 10px; background: none; color: var(--muted); cursor: pointer; transition: background .2s, color .2s; }
+    .cv-close:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .cv-close svg { width: 16px; height: 16px; }
+    .cv-body { position: relative; flex: 1; background: #1a1a1a; }
+    .cv-body iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+    .cv-fallback { display: none; }
+    /* Mobile browsers rarely render PDF inside an iframe -> show a clear fallback instead */
+    @media (max-width: 640px) {
+      .cv-modal { height: fit-content; }
+      .cv-actions .btn-ghost { display: none; }
+      .cv-actions { width: 100%; }
+      .cv-actions .btn-primary { flex: 1; }
+      .cv-head { padding: 12px; }
+      .cv-title-wrap { width: 100%; }
+      .cv-body iframe { display: none; }
+      .cv-fallback { display: grid; gap: 16px; justify-items: center; text-align: center; padding: 32px 20px; color: var(--muted); font-size: .9375rem; }
+      .cv-fallback p { margin: 0; }
+    }
+
     /* ---------- Reveal on scroll ---------- */
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease-out, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
     .reveal.in { opacity: 1; transform: none; }
@@ -423,6 +471,8 @@
       .reveal { transform: none; transition: opacity .3s; }
       .cube { animation: none; transform: rotateX(-22deg) rotateY(-32deg); }
       .reveal.in .chart span { animation: none; }
+      .btn, .btn:hover, .btn:active, .btn:hover .arr, .btn:hover .kbd { transform: none; }
+      .btn::after { display: none; }
     }
     .no-js .reveal { opacity: 1; transform: none; }
   </style>
@@ -432,7 +482,7 @@
   <!-- ================= NAV ================= -->
   <header class="nav" id="nav">
     <div class="container nav-inner">
-      <a href="#top" class="logo" aria-label="Chu Toàn Đức — về đầu trang"><span class="logo-mark">Đ</span>Toàn Đức</a>
+      <a href="#top" class="logo" aria-label="Chu Toàn Đức — về đầu trang">Toàn Đức</a>
       <nav class="nav-links" aria-label="Điều hướng chính">
         <a href="#about">Giới thiệu</a>
         <a href="#projects">Dự án</a>
@@ -469,7 +519,7 @@
           <p class="lead reveal" style="--d:.16s">Mình xây sản phẩm web từ đầu đến cuối — giao diện React gọn gàng, API Spring Boot chắc chắn, và một chút AI cho những bài toán thực tế như nông nghiệp.</p>
           <div class="hero-actions reveal" style="--d:.24s">
             <a class="btn btn-primary" href="#projects">Xem dự án <span class="kbd">↓</span></a>
-            <a class="btn btn-ghost" href="cv.pdf" download>Tải CV</a>
+            <a class="btn btn-ghost" href="cv.pdf" target="_blank" rel="noopener" data-cv-open>Tải CV</a>
           </div>
         </div>
         <div class="cube-stage reveal" style="--d:.2s" aria-hidden="true">
@@ -701,7 +751,7 @@ reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span cla
                 </ul>
                 <div class="tags"><span class="tag">React 19</span><span class="tag">Tailwind 4</span><span class="tag">Spring Boot 3</span><span class="tag">PostgreSQL</span><span class="tag">Supabase</span><span class="tag">Docker</span></div>
                 <div class="p-links">
-                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/DoAnWeb_WebRauCuQua" target="_blank" rel="noopener">Xem mã nguồn ↗</a>
+                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/DoAnWeb_WebRauCuQua" target="_blank" rel="noopener">Xem mã nguồn <span class="arr">↗</span></a>
                 </div>
               </div>
               <div class="p-visual" aria-hidden="true">
@@ -746,7 +796,7 @@ reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span cla
                 </ul>
                 <div class="tags"><span class="tag">Java</span><span class="tag">Swing</span><span class="tag">MVC</span><span class="tag">JCA</span><span class="tag">Bouncy Castle</span></div>
                 <div class="p-links">
-                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/AnToanBaoMatHTTT" target="_blank" rel="noopener">Xem mã nguồn ↗</a>
+                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/AnToanBaoMatHTTT" target="_blank" rel="noopener">Xem mã nguồn <span class="arr">↗</span></a>
                 </div>
               </div>
               <div class="p-visual">
@@ -932,11 +982,11 @@ reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span cla
         <h2 class="display grad reveal">Sẵn sàng cho<br />cơ hội tiếp theo.</h2>
         <p class="lead reveal" style="--d:.08s">Mình đang tìm vị trí Fresher / Junior Developer. Cùng trò chuyện nhé.</p>
         <div class="cta-actions reveal" style="--d:.16s">
-          <!-- TODO: thay email thật -->
-          <a class="btn btn-primary" href="mailto:email@example.com">Gửi email cho mình</a>
-          <a class="btn btn-ghost" href="cv.pdf" download>Tải CV</a>
+          <a class="btn btn-primary" href="mailto:chutoanduc2059@gmail.com">Gửi email cho mình</a>
+          <a class="btn btn-ghost" href="cv.pdf" target="_blank" rel="noopener" data-cv-open>Tải CV</a>
         </div>
         <div class="contact-line reveal" style="--d:.24s">
+          <a href="mailto:chutoanduc2059@gmail.com">chutoanduc2059@gmail.com</a>
           <a href="https://github.com/chutoanduc2601" target="_blank" rel="noopener">github.com/chutoanduc2601</a>
           <!-- TODO: thay link LinkedIn thật -->
           <a href="#" class="ph">[LinkedIn]</a>
@@ -945,9 +995,36 @@ reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span cla
     </section>
   </main>
 
+  <!-- ================= CV PREVIEW ================= -->
+  <dialog class="cv-modal" id="cv-modal" aria-labelledby="cv-title">
+    <div class="cv-head">
+      <div class="cv-title-wrap">
+        <span class="cv-file-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+        <div>
+          <h2 id="cv-title">CV — Chu Toàn Đức</h2>
+          <span class="mono">cv.pdf</span>
+        </div>
+      </div>
+      <div class="cv-actions">
+        <a class="btn btn-ghost" href="cv.pdf" target="_blank" rel="noopener">Mở tab mới <span class="arr">↗</span></a>
+        <a class="btn btn-primary" href="cv.pdf" download="Chu_Toan_Duc_CV.pdf">Tải xuống <span class="kbd">↓</span></a>
+        <button class="cv-close" type="button" aria-label="Đóng xem trước CV" data-cv-close>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="cv-body">
+      <iframe id="cv-frame" title="Xem trước CV của Chu Toàn Đức" loading="lazy"></iframe>
+      <div class="cv-fallback">
+        <p>Trình duyệt trên điện thoại thường không hiển thị PDF ngay trong trang.</p>
+        <a class="btn btn-ghost" href="cv.pdf" target="_blank" rel="noopener">Mở CV để xem <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+
   <footer>
     <div class="container foot reveal">
-      <a href="#top" class="logo"><span class="logo-mark">Đ</span>Toàn Đức</a>
+      <a href="#top" class="logo">Toàn Đức</a>
       <div class="foot-links">
         <a href="#projects">Dự án</a><a href="#thesis">Khoá luận</a><a href="https://github.com/chutoanduc2601" target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -1018,6 +1095,22 @@ reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span cla
       b.setAttribute('aria-selected', 'true'); algo = b.dataset.algo; render();
     }));
     render();
+
+    // CV preview modal: click "Tải CV" -> preview first, then the visitor chooses to download
+    const cvModal = document.getElementById('cv-modal');
+    const cvFrame = document.getElementById('cv-frame');
+    if (cvModal && typeof cvModal.showModal === 'function') {
+      document.querySelectorAll('[data-cv-open]').forEach((a) => a.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!cvFrame.getAttribute('src')) cvFrame.src = 'cv.pdf#view=FitH&toolbar=0&navpanes=0';
+        cvModal.showModal();
+        document.body.style.overflow = 'hidden';
+      }));
+      const closeCv = () => cvModal.close();
+      cvModal.querySelector('[data-cv-close]').addEventListener('click', closeCv);
+      cvModal.addEventListener('click', (e) => { if (e.target === cvModal) closeCv(); }); // click on backdrop
+      cvModal.addEventListener('close', () => { document.body.style.overflow = ''; });
+    }
 
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
