@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chu Toàn Đức — Fullstack Developer</title>
+  <meta name="description" content="Portfolio của Chu Toàn Đức — sinh viên Công nghệ Thông tin, Trường Đại học Nông Lâm TP.HCM. React, Spring Boot, Python & AI." />
+  <meta property="og:title" content="Chu Toàn Đức — Fullstack Developer" />
+  <meta property="og:description" content="Sinh viên CNTT · ĐH Nông Lâm TP.HCM. Xây sản phẩm web gọn, nhanh, dễ dùng." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23000'/><text x='16' y='22' font-family='Georgia' font-size='18' fill='%23fff' text-anchor='middle'>Đ</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400&family=JetBrains+Mono:wght@400;500&display=swap&subset=vietnamese" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #000;
+      --surface: #0a0a0a;
+      --surface-2: #111;
+      --border: rgba(255,255,255,.08);
+      --border-strong: rgba(255,255,255,.14);
+      --text: #ededed;
+      --muted: #a1a1a1;
+      --subtle: #6b6b6b;
+      --accent: #22c55e;
+      --accent-soft: #86efac;
+      --serif: "Newsreader", Georgia, serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+      --container: 1080px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 16px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+    section { position: relative; }
+    .sec { padding: 96px 0; }
+    @media (min-width: 768px) { .sec { padding: 140px 0; } .container { padding: 0 32px; } }
+
+    /* ---------- Typography ---------- */
+    .display {
+      font-family: var(--serif); font-weight: 300; letter-spacing: -0.035em; line-height: 1.02;
+      font-size: clamp(3rem, 11vw, 6.25rem); margin: 0;
+    }
+    .h2 {
+      font-family: var(--sans); font-weight: 400; letter-spacing: -0.045em; line-height: 1.1;
+      font-size: clamp(2.25rem, 6.4vw, 3.75rem); margin: 0;
+    }
+    .grad {
+      background: linear-gradient(180deg, #fff 30%, rgba(255,255,255,.55));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .grad-accent {
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-soft) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { color: var(--muted); font-size: 1rem; max-width: 560px; margin: 20px 0 0; }
+    @media (min-width: 768px) { .lead { font-size: 1.125rem; } }
+    .center { text-align: center; }
+    .center .lead { margin-left: auto; margin-right: auto; }
+    .label { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--subtle); }
+    .mono { font-family: var(--mono); }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 44px; padding: 0 18px; border-radius: 10px; font-size: .9375rem; font-weight: 500;
+      transition: background .2s, border-color .2s, color .2s, transform .2s;
+    }
+    .btn-primary { background: #fff; color: #000; }
+    .btn-primary:hover { background: #d9d9d9; }
+    .btn-ghost { border: 1px solid var(--border-strong); color: var(--text); background: rgba(255,255,255,.02); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.05); }
+    .kbd {
+      font-family: var(--mono); font-size: .6875rem; padding: 1px 6px; border-radius: 5px;
+      background: rgba(0,0,0,.08); color: inherit; opacity: .6;
+    }
+
+    /* ---------- Nav ---------- */
+    .nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: transparent; border-bottom: 1px solid transparent; transition: border-color .3s, background .3s;
+    }
+    .nav.scrolled, .menu-open .nav { border-bottom-color: var(--border); background: rgba(0,0,0,.7); }
+    .nav-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo { font-family: var(--serif); font-size: 1.375rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    .logo-mark { width: 26px; height: 26px; border-radius: 7px; background: #fff; color: #000; display: grid; place-items: center; font-size: .95rem; }
+    .nav-links { display: none; gap: 4px; }
+    .nav-links a { color: var(--muted); font-size: .875rem; padding: 8px 12px; border-radius: 8px; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { display: none; gap: 10px; }
+    .nav-cta .btn { min-height: 36px; padding: 0 14px; font-size: .8125rem; }
+    .burger { width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; color: #fff; cursor: pointer; margin-right: -10px; }
+    .burger span { display: block; width: 20px; height: 1.5px; background: currentColor; position: relative; transition: transform .3s, background .3s; }
+    .burger span::before, .burger span::after { content: ""; position: absolute; left: 0; width: 20px; height: 1.5px; background: currentColor; transition: transform .3s, top .3s; }
+    .burger span::before { top: -6px; } .burger span::after { top: 6px; }
+    .menu-open .burger span { background: transparent; }
+    .menu-open .burger span::before { top: 0; transform: rotate(45deg); }
+    .menu-open .burger span::after { top: 0; transform: rotate(-45deg); }
+    .mobile-menu {
+      position: fixed; inset: 64px 0 0 0; background: #000; z-index: 49; padding: 24px 20px;
+      display: flex; flex-direction: column; gap: 4px;
+      opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .25s, transform .25s;
+    }
+    .menu-open .mobile-menu { opacity: 1; pointer-events: auto; transform: none; }
+    .mobile-menu a.m-link { font-size: 1.5rem; letter-spacing: -0.02em; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .mobile-menu .btn { margin-top: 20px; }
+    @media (min-width: 900px) {
+      .nav-links, .nav-cta { display: flex; }
+      .burger, .mobile-menu { display: none; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 132px 0 56px; overflow: hidden; }
+    @media (min-width: 768px) { .hero { padding: 184px 0 96px; } }
+    .hero-grid { position: relative; }
+    .hero-light { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hero-light::before, .hero-light::after { content: ""; position: absolute; left: -30%; width: 160%; transform: rotate(-14deg); filter: blur(28px);
+      -webkit-mask-image: linear-gradient(90deg, transparent 5%, #000 55%, transparent 95%); mask-image: linear-gradient(90deg, transparent 5%, #000 55%, transparent 95%); }
+    .hero-light::before { top: 22%; height: 180px; background: linear-gradient(180deg, transparent, rgba(255,255,255,.07) 40%, rgba(255,255,255,.11) 50%, rgba(255,255,255,.07) 60%, transparent); }
+    .hero-light::after { top: 48%; height: 60px; background: linear-gradient(180deg, transparent, rgba(255,255,255,.05), transparent); }
+    .hero-spot { position: absolute; top: -260px; right: -120px; width: 820px; height: 620px; pointer-events: none;
+      background: radial-gradient(closest-side, rgba(255,255,255,.07), transparent); }
+    .hero .display { font-size: clamp(3rem, 12.5vw, 5.75rem); position: relative; z-index: 1; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border-radius: 999px;
+      border: 1px solid var(--border-strong); background: rgba(255,255,255,.03); font-size: .8125rem; color: var(--muted);
+      margin-bottom: 28px; max-width: 100%;
+    }
+    .pill b { font-weight: 500; color: #000; background: var(--accent); padding: 2px 8px; border-radius: 999px; font-size: .75rem; white-space: nowrap; }
+    .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+    .hero .lead { max-width: 500px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+
+    /* 3D cube */
+    .cube-stage { position: relative; height: 210px; margin-top: 32px; display: grid; place-items: center; perspective: 900px; }
+    @media (min-width: 900px) { .cube-stage { position: absolute; right: 10px; top: 190px; width: 320px; height: 320px; margin: 0; } }
+    .cube-glow { position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.08), transparent 65%); filter: blur(20px); }
+    .cube { --s: 120px; width: var(--s); height: var(--s); position: relative; transform-style: preserve-3d;
+      animation: spin 22s linear infinite; }
+    @media (min-width: 900px) { .cube { --s: 160px; } }
+    .face { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      background: linear-gradient(145deg, rgba(40,40,40,.92), rgba(6,6,6,.96));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), inset 0 0 40px rgba(0,0,0,.6);
+      display: grid; place-items: center; }
+    .face span { font-family: var(--serif); font-size: calc(var(--s) * .42); color: rgba(255,255,255,.88); }
+    .face.f1 { transform: translateZ(calc(var(--s)/2)); }
+    .face.f2 { transform: rotateY(180deg) translateZ(calc(var(--s)/2)); }
+    .face.f3 { transform: rotateY(90deg) translateZ(calc(var(--s)/2)); }
+    .face.f4 { transform: rotateY(-90deg) translateZ(calc(var(--s)/2)); }
+    .face.f5 { transform: rotateX(90deg) translateZ(calc(var(--s)/2)); background: linear-gradient(145deg, #3a3a3a, #121212); }
+    .face.f6 { transform: rotateX(-90deg) translateZ(calc(var(--s)/2)); }
+    .face.f3 span, .face.f4 span { font-family: var(--mono); font-size: calc(var(--s) * .16); color: rgba(255,255,255,.55); }
+    @keyframes spin { from { transform: rotateX(-22deg) rotateY(0); } to { transform: rotateX(-22deg) rotateY(360deg); } }
+
+    /* ---------- Logo strip ---------- */
+    .logos { padding: 72px 0 40px; }
+    .logos p { text-align: center; color: var(--subtle); font-size: .875rem; margin: 0 0 36px; }
+    .logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 12px; align-items: center; }
+    @media (min-width: 640px) { .logo-grid { grid-template-columns: repeat(4, 1fr); gap: 40px 24px; max-width: 880px; margin: 0 auto; } }
+    .logos-more { display: flex; justify-content: center; margin-top: 44px; }
+    .logos-more a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--subtle); font-size: .875rem; transition: color .2s; }
+    .logos-more a:hover { color: #fff; }
+    .logo-item { display: flex; align-items: center; justify-content: center; gap: 7px; color: #8f8f8f; font-weight: 500; font-size: .8125rem; letter-spacing: -0.01em; white-space: nowrap; transition: color .2s; }
+    .logo-item img { width: 16px; height: 16px; filter: invert(.62); transition: filter .2s; }
+    @media (min-width: 640px) { .logo-item { font-size: .9375rem; gap: 9px; } .logo-item img { width: 20px; height: 20px; } }
+    @media (min-width: 900px) { .logo-item { font-size: 1.125rem; gap: 11px; } .logo-item img { width: 24px; height: 24px; } }
+    .logo-item:hover { color: #fff; } .logo-item:hover img { filter: invert(1); }
+
+    /* ---------- Orb icon (glowing object above titles) ---------- */
+    /* App-icon style object: glossy dark tile, neutral halo, accent only inside */
+    .orb-wrap { position: relative; width: 104px; height: 104px; margin: 0 auto 40px; display: grid; place-items: center; }
+    .orb-wrap.left { margin-left: 0; }
+    .orb-wrap::before { content: ""; position: absolute; inset: -56px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.09), transparent 62%); }
+    .orb { position: relative; width: 96px; height: 96px; border-radius: 26px; display: grid; place-items: center; overflow: hidden;
+      background:
+        radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.16), transparent 55%),
+        linear-gradient(180deg, #2b2b2b, #0b0b0b 70%);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3), inset 0 -10px 24px rgba(0,0,0,.6), 0 24px 48px -12px rgba(0,0,0,.9); }
+    .orb::before { content: ""; position: absolute; left: 50%; bottom: -18px; width: 70px; height: 40px; transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(34,197,94,.55), transparent); filter: blur(6px); }
+    .orb svg { position: relative; width: 38px; height: 38px; color: #fff; filter: drop-shadow(0 0 10px rgba(134,239,172,.45)); }
+
+    /* ---------- Code window ---------- */
+    .lang-tiles { margin-top: 48px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .lang-tile { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 76px; padding: 0; background: none; border: 0;
+      color: var(--subtle); font: 500 .75rem var(--sans); cursor: pointer; transition: color .2s; }
+    .lang-tile > span { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center;
+      border: 1px solid var(--border); background: linear-gradient(180deg, #141414, #070707); transition: border-color .2s, box-shadow .2s, background .2s; }
+    .lang-tile img { width: 22px; height: 22px; filter: invert(.45); transition: filter .2s; }
+    .lang-tile:hover { color: var(--muted); }
+    .lang-tile:hover > span { border-color: var(--border-strong); }
+    .lang-tile[aria-selected="true"] { color: #fff; }
+    .lang-tile[aria-selected="true"] > span { border-color: rgba(255,255,255,.28); background: linear-gradient(180deg, #232323, #0c0c0c);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 0 24px -4px rgba(34,197,94,.45); }
+    .lang-tile[aria-selected="true"] img { filter: invert(1); }
+    @media (max-width: 420px) { .lang-tiles { gap: 2px; } .lang-tile { width: 64px; } .lang-tile > span { width: 50px; height: 50px; } }
+    .file-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .code-win { margin-top: 28px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 40px 120px -40px rgba(34,197,94,.18); text-align: left; }
+    .tabs { display: flex; gap: 2px; padding: 8px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border-radius: 8px;
+      background: none; border: 0; color: var(--subtle); font: 500 .8125rem var(--sans); cursor: pointer; transition: color .2s, background .2s; }
+    .tab img { width: 14px; height: 14px; filter: invert(.45); }
+    .tab:hover { color: var(--muted); }
+    .tab[aria-selected="true"] { color: #fff; background: rgba(255,255,255,.06); }
+    .tab[aria-selected="true"] img { filter: invert(1); }
+    .code-body { display: grid; grid-template-columns: auto 1fr; font: 400 .8125rem/1.8 var(--mono); padding: 20px 0; overflow-x: auto; min-height: 340px; }
+    @media (min-width: 768px) { .code-body { font-size: .875rem; } }
+    .ln { color: #3d3d3d; text-align: right; padding: 0 16px 0 20px; user-select: none; white-space: pre; }
+    .code { white-space: pre; padding-right: 24px; color: #d4d4d4; }
+    .code-panel[hidden] { display: none; }
+    .k { color: #c792ea; } .s { color: var(--accent-soft); } .f { color: #82aaff; } .c { color: #545454; font-style: italic; }
+    .n { color: #f78c6c; } .t { color: #ffcb6b; } .p { color: #89ddff; }
+    .code-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--border); font: .75rem var(--mono); color: var(--subtle); }
+    .code-foot .ok { color: var(--accent); }
+
+    /* ---------- Left-aligned feature sections ---------- */
+    .split-head { max-width: 640px; }
+    .feature-row { display: grid; gap: 1px; margin-top: 64px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    @media (min-width: 900px) { .feature-row { grid-template-columns: 1fr 1fr; } }
+    .feature { background: #000; padding: 28px; }
+    @media (min-width: 768px) { .feature { padding: 36px; } }
+    .feature h3 { margin: 0 0 8px; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+    .feature h3 svg { width: 18px; height: 18px; color: var(--muted); }
+    .feature p { margin: 0; color: var(--muted); font-size: .9375rem; }
+
+    /* ---------- Project cards ---------- */
+    .featured { display: grid; gap: 20px; margin-top: 64px; }
+    .p-card { position: relative; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); overflow: hidden; transition: border-color .3s; }
+    .p-card:hover { border-color: var(--border-strong); }
+    .p-card-grid { display: grid; }
+    @media (min-width: 900px) { .p-card-grid { grid-template-columns: 1fr 1.1fr; } .p-card.reverse .p-card-grid { grid-template-columns: 1.1fr 1fr; } .p-card.reverse .p-info { order: 2; } }
+    .p-info { padding: 28px; display: flex; flex-direction: column; }
+    @media (min-width: 768px) { .p-info { padding: 40px; } }
+    .p-kicker { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .p-kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .p-info h3 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 14px; }
+    .p-info > p { color: var(--muted); margin: 0 0 20px; font-size: .9375rem; }
+    .p-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
+    .p-list li { display: flex; gap: 10px; color: #c9c9c9; font-size: .9rem; }
+    .p-list li::before { content: ""; flex: none; width: 14px; height: 14px; margin-top: 4px; border-radius: 4px; border: 1px solid rgba(34,197,94,.5);
+      background: rgba(34,197,94,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2386efac' stroke-width='2'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center/10px no-repeat; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font: 500 .75rem var(--mono); color: var(--muted); padding: 4px 9px; border-radius: 6px; border: 1px solid var(--border); background: rgba(255,255,255,.02); }
+    .p-links { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+    .p-links .btn { min-height: 40px; font-size: .875rem; }
+    .p-visual { position: relative; min-height: 320px; border-top: 1px solid var(--border); background:
+      radial-gradient(600px 300px at 70% 0%, rgba(34,197,94,.12), transparent 60%),
+      linear-gradient(180deg, #0c0c0c, #050505);
+      padding: 28px 0 0 28px; overflow: hidden; }
+    @media (min-width: 900px) { .p-visual { border-top: 0; border-left: 1px solid var(--border); padding: 48px 0 0 48px; } .p-card.reverse .p-visual { border-left: 0; border-right: 1px solid var(--border); } }
+
+    /* Farmily mock */
+    .mock { border: 1px solid var(--border-strong); border-right: 0; border-bottom: 0; border-radius: 12px 0 0 0; background: #0b0b0b; height: 100%; min-height: 292px; overflow: hidden; }
+    .mock-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .mock-bar i { width: 9px; height: 9px; border-radius: 50%; background: #2a2a2a; }
+    .mock-bar .url { margin-left: 10px; font: .6875rem var(--mono); color: var(--subtle); background: #151515; padding: 3px 10px; border-radius: 6px; }
+    .mock-body { display: grid; grid-template-columns: 120px 1fr; min-height: 260px; }
+    .mock-side { border-right: 1px solid var(--border); padding: 14px 10px; display: grid; gap: 4px; align-content: start; font-size: .6875rem; color: var(--subtle); }
+    .mock-side div { padding: 6px 8px; border-radius: 6px; white-space: nowrap; }
+    .mock-side .on { background: rgba(255,255,255,.06); color: #fff; }
+    .mock-main { padding: 16px; display: grid; gap: 12px; align-content: start; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(90px, 1fr)); gap: 8px; }
+    .stat { border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
+    .stat small { display: block; font-size: .625rem; color: var(--subtle); }
+    .stat b { font-weight: 500; font-size: .9375rem; }
+    .stat em { font-style: normal; font-size: .625rem; color: var(--accent); margin-left: 4px; }
+    .chart { border: 1px solid var(--border); border-radius: 8px; padding: 12px; height: 130px; display: flex; align-items: flex-end; gap: 6px; }
+    .chart span { flex: 1; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, rgba(34,197,94,.9), rgba(34,197,94,.15)); transform-origin: bottom; }
+    .orders { border: 1px solid var(--border); border-radius: 8px; font-size: .6875rem; }
+    .orders div { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .orders div:last-child { border-bottom: 0; }
+    .orders span { color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
+    .orders .st { font-weight: 500; color: var(--subtle); }
+    .orders .st.ok { color: var(--accent); }
+    .reveal.in .chart span { animation: grow 1s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes grow { from { transform: scaleY(0); } }
+
+    /* Cipher demo */
+    .cipher { margin-right: 28px; margin-bottom: 28px; border: 1px solid var(--border-strong); border-radius: 12px; background: #0b0b0b; overflow: hidden; }
+    @media (min-width: 900px) { .p-card.reverse .p-visual { padding: 48px; display: flex; align-items: center; } .cipher { margin: 0; width: 100%; } }
+    .cipher-head { display: flex; gap: 2px; padding: 8px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+    .cipher-head::-webkit-scrollbar { display: none; }
+    .cipher-body { padding: 18px; display: grid; gap: 14px; }
+    .field label { display: block; font-size: .6875rem; color: var(--subtle); margin-bottom: 6px; letter-spacing: .08em; text-transform: uppercase; }
+    .field input, .field output { width: 100%; display: block; font: 16px var(--mono); color: #fff; background: #060606; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; min-height: 44px; outline: none; word-break: break-all; }
+    @media (min-width: 768px) { .field input, .field output { font-size: .875rem; } }
+    .field input:focus { border-color: rgba(34,197,94,.5); }
+    .field output { color: var(--accent-soft); }
+    .cipher-meta { display: flex; justify-content: space-between; font: .6875rem var(--mono); color: var(--subtle); }
+
+    /* Small project cards */
+    .grid-cards { display: grid; gap: 20px; margin-top: 20px; }
+    @media (min-width: 768px) { .grid-cards { grid-template-columns: 1fr 1fr; } }
+    .s-card { border: 1px solid var(--border); border-radius: 16px; padding: 28px; background: var(--surface); display: flex; flex-direction: column; transition: border-color .3s, transform .3s; position: relative; overflow: hidden; }
+    .s-card:hover { border-color: var(--border-strong); }
+    .s-card::before { content: ""; position: absolute; top: -1px; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent); }
+    .s-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; border: 1px solid var(--border-strong); background: linear-gradient(160deg, #222, #0a0a0a); margin-bottom: 20px; }
+    .s-icon svg { width: 18px; height: 18px; }
+    .s-card h3 { margin: 0 0 8px; font-size: 1.125rem; font-weight: 500; letter-spacing: -0.02em; }
+    .s-card p { margin: 0 0 20px; color: var(--muted); font-size: .9rem; }
+    .s-card .tags { margin-bottom: 20px; }
+    .text-link { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; color: #fff; min-height: 44px; margin-top: auto; }
+    .text-link svg { width: 14px; height: 14px; transition: transform .2s; }
+    .text-link:hover svg { transform: translateX(3px); }
+
+    /* ---------- Thesis diagram ---------- */
+    .diagram-win { margin-top: 56px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); overflow: hidden; text-align: left; }
+    .diagram { padding: 32px 20px; overflow-x: auto; }
+    .flow { display: flex; flex-direction: column; align-items: center; gap: 10px; justify-content: center; }
+    .flow .node { min-width: 180px; }
+    .flow .arrow { width: 1px; height: 18px; }
+    .flow .arrow::after { right: -3px; top: auto; bottom: 0; border: 3.5px solid transparent; border-top: 5px solid rgba(255,255,255,.3); border-bottom: 0; }
+    @media (min-width: 900px) {
+      .flow { flex-direction: row; }
+      .flow .node { min-width: 96px; }
+      .flow .arrow { width: 26px; height: 1px; }
+      .flow .arrow::after { right: 0; top: -3px; bottom: auto; border: 3.5px solid transparent; border-left: 5px solid rgba(255,255,255,.3); border-right: 0; }
+    }
+    .node { border: 1px solid var(--border-strong); border-radius: 10px; padding: 12px 14px; background: #0d0d0d; font-size: .8125rem; text-align: center; min-width: 96px; }
+    .node small { display: block; font: .6875rem var(--mono); color: var(--subtle); margin-top: 2px; }
+    .node.hl { border-color: rgba(34,197,94,.55); background: rgba(34,197,94,.06); box-shadow: 0 0 40px -10px rgba(34,197,94,.5); }
+    .node-group { display: grid; gap: 8px; padding: 10px; border: 1px dashed rgba(34,197,94,.35); border-radius: 12px; }
+    .arrow { flex: none; width: 26px; height: 1px; background: var(--border-strong); position: relative; }
+    .arrow::after { content: ""; position: absolute; right: 0; top: -3px; border: 3.5px solid transparent; border-left: 5px solid rgba(255,255,255,.3); border-right: 0; }
+    .thesis-meta { display: grid; gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+    @media (min-width: 640px) { .thesis-meta { grid-template-columns: repeat(3, 1fr); } }
+    .thesis-meta div { background: var(--surface); padding: 18px 20px; }
+    .thesis-meta b { display: block; font-weight: 500; font-size: .9375rem; }
+    .thesis-meta span { font-size: .8125rem; color: var(--subtle); }
+
+    /* ---------- Education ---------- */
+    .edu-card { margin-top: 64px; display: grid; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+    @media (min-width: 900px) { .edu-card { grid-template-columns: 1fr 1fr; } }
+    .edu-main { padding: 32px; background: var(--surface); }
+    @media (min-width: 768px) { .edu-main { padding: 44px; } }
+    .edu-main h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.03em; line-height: 1.1; margin: 16px 0 12px; }
+    .edu-main p { color: var(--muted); margin: 0; }
+    .edu-facts { display: grid; gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+    @media (min-width: 900px) { .edu-facts { border-top: 0; border-left: 1px solid var(--border); } }
+    .fact { background: #000; padding: 22px 28px; display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+    .fact span { color: var(--subtle); font-size: .875rem; }
+    .fact b { font-weight: 500; font-size: .9375rem; text-align: right; }
+    .ph { color: var(--subtle); font-style: italic; font-weight: 400; }
+
+    /* ---------- Skills ---------- */
+    .skills { display: grid; gap: 20px; margin-top: 64px; }
+    @media (min-width: 768px) { .skills { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .skills { grid-template-columns: repeat(4, 1fr); } }
+    .skill { border-top: 1px solid var(--border-strong); padding-top: 20px; }
+    .skill h3 { font-size: .9375rem; font-weight: 500; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+    .skill h3 .num { font: .75rem var(--mono); color: var(--accent); }
+    .skill ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--muted); font-size: .9375rem; }
+
+    /* ---------- Quote ---------- */
+    .quote { max-width: 760px; text-align: center; }
+    .quote blockquote { margin: 0; font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 4.4vw, 2.25rem); line-height: 1.3; letter-spacing: -0.02em; color: #e6e6e6; text-wrap: balance; }
+    .quote .author { justify-content: center; text-align: left; }
+    .quote blockquote .dim { color: var(--subtle); }
+    .author { display: flex; align-items: center; gap: 12px; margin-top: 32px; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-size: 1.25rem;
+      background: linear-gradient(160deg, #2b2b2b, #0b0b0b); border: 1px solid var(--border-strong); }
+    .author b { display: block; font-weight: 500; font-size: .9375rem; }
+    .author span { color: var(--subtle); font-size: .8125rem; }
+
+    /* ---------- Accordion ---------- */
+    .acc { margin-top: 56px; display: grid; gap: 10px; text-align: left; }
+    .acc details { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); transition: border-color .25s, background .25s; }
+    .acc details:hover { border-color: var(--border-strong); }
+    .acc details[open] { border-color: var(--border-strong); background: linear-gradient(180deg, #111, var(--surface)); }
+    .acc details[open] summary .ic { border-color: rgba(34,197,94,.5); color: var(--accent-soft); box-shadow: 0 0 18px -4px rgba(34,197,94,.5); }
+    .acc summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 20px 24px; min-height: 64px; font-weight: 500; }
+    .acc summary::-webkit-details-marker { display: none; }
+    .acc summary .ic { width: 32px; height: 32px; flex: none; border-radius: 8px; display: grid; place-items: center; border: 1px solid var(--border-strong); background: #111; }
+    .acc summary .ic svg { width: 16px; height: 16px; }
+    .acc summary .chev { margin-left: auto; width: 16px; height: 16px; color: var(--subtle); transition: transform .3s; }
+    .acc details[open] summary .chev { transform: rotate(45deg); }
+    .acc .acc-body { padding: 0 20px 20px 20px; color: var(--muted); font-size: .9375rem; }
+    @media (min-width: 640px) { .acc .acc-body { padding: 0 24px 22px 70px; } }
+
+    /* ---------- CTA + footer ---------- */
+    .cta { padding: 120px 0 140px; text-align: center; overflow: hidden; }
+    .cta::before { content: ""; position: absolute; left: 50%; top: 40%; width: 700px; height: 400px; transform: translate(-50%, -50%);
+      background: radial-gradient(closest-side, rgba(34,197,94,.14), transparent); pointer-events: none; }
+    .cta .display { font-size: clamp(2.75rem, 10vw, 5.5rem); }
+    .cta .lead { margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 40px; }
+    .contact-line { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; color: var(--subtle); font-size: .875rem; }
+    .contact-line a { min-height: 44px; display: inline-flex; align-items: center; transition: color .2s; }
+    .contact-line a:hover { color: #fff; }
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--subtle); font-size: .8125rem; }
+    .foot { display: flex; flex-direction: column; gap: 20px; }
+    @media (min-width: 768px) { .foot { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .foot-links a { min-height: 44px; display: inline-flex; align-items: center; } .foot-links a:hover { color: #fff; }
+
+    /* "lamp" separator: bright line + soft light falling down, like Resend section tops */
+    .divider { position: relative; height: 1px; max-width: 1080px; margin: 0 auto;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12) 30%, rgba(255,255,255,.35) 50%, rgba(255,255,255,.12) 70%, transparent); }
+    .divider::after { content: ""; position: absolute; left: 50%; top: 0; width: min(720px, 100%); height: 220px; transform: translateX(-50%); pointer-events: none;
+      background: radial-gradient(50% 100% at 50% 0%, rgba(255,255,255,.075), transparent 70%); }
+
+    /* ---------- Reveal on scroll ---------- */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease-out, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { transform: none; transition: opacity .3s; }
+      .cube { animation: none; transform: rotateX(-22deg) rotateY(-32deg); }
+      .reveal.in .chart span { animation: none; }
+    }
+    .no-js .reveal { opacity: 1; transform: none; }
+  </style>
+</head>
+<body class="no-js">
+
+  <!-- ================= NAV ================= -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="logo" aria-label="Chu Toàn Đức — về đầu trang"><span class="logo-mark">Đ</span>Toàn Đức</a>
+      <nav class="nav-links" aria-label="Điều hướng chính">
+        <a href="#about">Giới thiệu</a>
+        <a href="#projects">Dự án</a>
+        <a href="#thesis">Khoá luận</a>
+        <a href="#education">Học vấn</a>
+        <a href="#skills">Kỹ năng</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="https://github.com/chutoanduc2601" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-primary" href="#contact">Liên hệ</a>
+      </div>
+      <button class="burger" id="burger" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobile-menu">
+    <a class="m-link" href="#about">Giới thiệu</a>
+    <a class="m-link" href="#projects">Dự án</a>
+    <a class="m-link" href="#thesis">Khoá luận</a>
+    <a class="m-link" href="#education">Học vấn</a>
+    <a class="m-link" href="#skills">Kỹ năng</a>
+    <a class="btn btn-primary" href="#contact">Liên hệ</a>
+  </div>
+
+  <main id="top">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-light" aria-hidden="true"></div>
+      <div class="hero-spot" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div>
+          <a href="#contact" class="pill reveal"><b>Open to work</b><span>Sinh viên CNTT · ĐH Nông Lâm TP.HCM</span></a>
+          <h1 class="display grad reveal" style="--d:.08s">Chu Toàn Đức<br />Fullstack Developer</h1>
+          <p class="lead reveal" style="--d:.16s">Mình xây sản phẩm web từ đầu đến cuối — giao diện React gọn gàng, API Spring Boot chắc chắn, và một chút AI cho những bài toán thực tế như nông nghiệp.</p>
+          <div class="hero-actions reveal" style="--d:.24s">
+            <a class="btn btn-primary" href="#projects">Xem dự án <span class="kbd">↓</span></a>
+            <a class="btn btn-ghost" href="cv.pdf" download>Tải CV</a>
+          </div>
+        </div>
+        <div class="cube-stage reveal" style="--d:.2s" aria-hidden="true">
+          <div class="cube-glow"></div>
+          <div class="cube">
+            <div class="face f1"><span>Đ</span></div>
+            <div class="face f2"><span>NLU</span></div>
+            <div class="face f3"><span>&lt;/&gt;</span></div>
+            <div class="face f4"><span>{ }</span></div>
+            <div class="face f5"></div>
+            <div class="face f6"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TECH STRIP ================= -->
+    <div class="divider"></div>
+    <section class="logos" aria-label="Công nghệ">
+      <div class="container">
+        <p class="reveal">Công nghệ mình dùng để xây dựng sản phẩm —<br />từ giao diện, API đến mô hình học máy.</p>
+        <div class="logo-grid">
+          <div class="logo-item reveal" style="--d:0s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/react.svg" alt="" loading="lazy" />React</div>
+          <div class="logo-item reveal" style="--d:.05s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/typescript.svg" alt="" loading="lazy" />TypeScript</div>
+          <div class="logo-item reveal" style="--d:.1s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/springboot.svg" alt="" loading="lazy" />Spring Boot</div>
+          <div class="logo-item reveal" style="--d:.15s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg" alt="" loading="lazy" />PostgreSQL</div>
+          <div class="logo-item reveal" style="--d:.2s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/supabase.svg" alt="" loading="lazy" />Supabase</div>
+          <div class="logo-item reveal" style="--d:.25s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/tailwindcss.svg" alt="" loading="lazy" />Tailwind</div>
+          <div class="logo-item reveal" style="--d:.05s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg" alt="" loading="lazy" />Python</div>
+          <div class="logo-item reveal" style="--d:.1s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pytorch.svg" alt="" loading="lazy" />PyTorch</div>
+          <div class="logo-item reveal" style="--d:.15s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/opencv.svg" alt="" loading="lazy" />OpenCV</div>
+          <div class="logo-item reveal" style="--d:.2s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg" alt="" loading="lazy" />Docker</div>
+          <div class="logo-item reveal" style="--d:.25s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/vite.svg" alt="" loading="lazy" />Vite</div>
+          <div class="logo-item reveal" style="--d:.3s"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/git.svg" alt="" loading="lazy" />Git</div>
+        </div>
+        <div class="logos-more reveal"><a href="https://github.com/chutoanduc2601?tab=repositories" target="_blank" rel="noopener">Xem tất cả repository <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT + CODE ================= -->
+    <section class="sec" id="about">
+      <div class="container center">
+        <div class="orb-wrap reveal"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg></div></div>
+        <h2 class="h2 grad reveal">Từ <span class="grad-accent">Nông Lâm</span><br />đến dòng code</h2>
+        <p class="lead reveal" style="--d:.08s">Một sinh viên CNTT lớn lên giữa ngôi trường nông nghiệp — nên các sản phẩm của mình thường gắn với đời sống thật: rau sạch, tình nguyện, biển số xe, bệnh trên lá cây.</p>
+
+        <div class="lang-tiles reveal" style="--d:.12s" role="tablist" aria-label="Ngôn ngữ">
+          <button class="lang-tile" role="tab" aria-selected="true" aria-controls="code-ts" id="tab-ts" data-file="developer.ts"><span><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/typescript.svg" alt="" /></span>TypeScript</button>
+          <button class="lang-tile" role="tab" aria-selected="false" aria-controls="code-react" id="tab-react" data-file="ProductCard.jsx"><span><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/react.svg" alt="" /></span>React</button>
+          <button class="lang-tile" role="tab" aria-selected="false" aria-controls="code-java" id="tab-java" data-file="ProductController.java"><span><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/springboot.svg" alt="" /></span>Spring</button>
+          <button class="lang-tile" role="tab" aria-selected="false" aria-controls="code-py" id="tab-py" data-file="detect_plate.py"><span><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg" alt="" /></span>Python</button>
+          <button class="lang-tile" role="tab" aria-selected="false" aria-controls="code-sql" id="tab-sql" data-file="schema.sql"><span><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg" alt="" /></span>SQL</button>
+        </div>
+
+        <div class="code-win reveal" style="--d:.16s">
+          <div class="tabs">
+            <span class="tab" aria-selected="true"><span class="file-dot"></span><span id="code-file">developer.ts</span></span>
+            <span class="tab">README.md</span>
+          </div>
+
+          <div class="code-panel" id="code-react" role="tabpanel" aria-labelledby="tab-react" hidden>
+            <div class="code-body"><div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div><div class="code"><span class="k">import</span> { motion } <span class="k">from</span> <span class="s">'framer-motion'</span>;
+
+<span class="k">export default function</span> <span class="f">ProductCard</span>({ product, onAdd }) {
+  <span class="k">return</span> (
+    &lt;<span class="t">motion.article</span> whileHover<span class="p">=</span>{{ y: <span class="p">-</span><span class="n">4</span> }} className<span class="p">=</span><span class="s">"rounded-2xl border p-4"</span>&gt;
+      &lt;<span class="t">img</span> src<span class="p">=</span>{product.image} alt<span class="p">=</span>{product.name} /&gt;
+      &lt;<span class="t">h3</span>&gt;{product.name}&lt;/<span class="t">h3</span>&gt;
+      &lt;<span class="t">span</span> className<span class="p">=</span><span class="s">"badge"</span>&gt;VietGAP&lt;/<span class="t">span</span>&gt;
+      &lt;<span class="t">button</span> onClick<span class="p">=</span>{() <span class="p">=&gt;</span> <span class="f">onAdd</span>(product)}&gt;
+        Thêm vào giỏ
+      &lt;/<span class="t">button</span>&gt;
+    &lt;/<span class="t">motion.article</span>&gt;
+  );</div></div>
+          </div>
+
+          <div class="code-panel" id="code-sql" role="tabpanel" aria-labelledby="tab-sql" hidden>
+            <div class="code-body"><div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div><div class="code"><span class="c">-- Farmily · PostgreSQL</span>
+<span class="k">CREATE TABLE</span> <span class="t">orders</span> (
+  id          <span class="t">BIGSERIAL</span> <span class="k">PRIMARY KEY</span>,
+  user_id     <span class="t">UUID</span> <span class="k">REFERENCES</span> users(id),
+  status      <span class="t">VARCHAR</span>(<span class="n">20</span>) <span class="k">DEFAULT</span> <span class="s">'PENDING'</span>,
+  total       <span class="t">NUMERIC</span>(<span class="n">12</span>, <span class="n">2</span>) <span class="k">NOT NULL</span>,
+  created_at  <span class="t">TIMESTAMPTZ</span> <span class="k">DEFAULT</span> <span class="f">now</span>()
+);
+
+<span class="k">SELECT</span> <span class="f">date_trunc</span>(<span class="s">'month'</span>, created_at) <span class="k">AS</span> month, <span class="f">SUM</span>(total)
+<span class="k">FROM</span> orders
+<span class="k">WHERE</span> status <span class="p">=</span> <span class="s">'DELIVERED'</span>
+<span class="k">GROUP BY</span> <span class="n">1</span> <span class="k">ORDER BY</span> <span class="n">1</span>;</div></div>
+          </div>
+
+          <div class="code-panel" id="code-ts" role="tabpanel" aria-labelledby="tab-ts">
+            <div class="code-body"><div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div><div class="code"><span class="k">import</span> { <span class="t">Developer</span> } <span class="k">from</span> <span class="s">'@nlu/fit'</span>;
+
+<span class="k">const</span> <span class="f">me</span> <span class="p">=</span> <span class="k">new</span> <span class="t">Developer</span>({
+  name: <span class="s">'Chu Toàn Đức'</span>,
+  school: <span class="s">'Đại học Nông Lâm TP.HCM'</span>,
+  major: <span class="s">'Công nghệ Thông tin'</span>,
+  studentId: <span class="s">'22130047'</span>,
+  stack: [<span class="s">'React'</span>, <span class="s">'TypeScript'</span>, <span class="s">'Spring Boot'</span>, <span class="s">'Python'</span>],
+  interests: [<span class="s">'Fullstack'</span>, <span class="s">'Computer Vision'</span>],
+});
+
+<span class="k">await</span> me.<span class="f">applyTo</span>(<span class="s">'your-team'</span>); <span class="c">// ready to ship 🚀</span></div></div>
+          </div>
+
+          <div class="code-panel" id="code-java" role="tabpanel" aria-labelledby="tab-java" hidden>
+            <div class="code-body"><div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div><div class="code"><span class="t">@RestController</span>
+<span class="t">@RequestMapping</span>(<span class="s">"/api/products"</span>)
+<span class="k">public class</span> <span class="t">ProductController</span> {
+
+  <span class="k">private final</span> <span class="t">ProductService</span> service;
+
+  <span class="t">@GetMapping</span>
+  <span class="k">public</span> <span class="t">Page</span>&lt;<span class="t">ProductDTO</span>&gt; <span class="f">list</span>(<span class="t">@RequestParam</span> <span class="t">String</span> category,
+                              <span class="t">Pageable</span> pageable) {
+    <span class="c">// Farmily — fresh vegetables, VietGAP certified</span>
+    <span class="k">return</span> service.<span class="f">findByCategory</span>(category, pageable);
+  }
+}</div></div>
+          </div>
+
+          <div class="code-panel" id="code-py" role="tabpanel" aria-labelledby="tab-py" hidden>
+            <div class="code-body"><div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div><div class="code"><span class="k">from</span> ultralytics <span class="k">import</span> <span class="t">YOLO</span>
+<span class="k">import</span> easyocr, cv2
+
+detector <span class="p">=</span> <span class="t">YOLO</span>(<span class="s">"license_plate_detector.pt"</span>)
+reader <span class="p">=</span> easyocr.<span class="f">Reader</span>([<span class="s">"en"</span>])
+
+<span class="k">def</span> <span class="f">read_plate</span>(path: <span class="t">str</span>) <span class="p">-&gt;</span> <span class="t">list</span>[<span class="t">str</span>]:
+    img <span class="p">=</span> cv2.<span class="f">imread</span>(path)
+    plates <span class="p">=</span> []
+    <span class="k">for</span> x1, y1, x2, y2 <span class="k">in</span> detector(img)[<span class="n">0</span>].boxes.xyxy.<span class="f">int</span>().<span class="f">tolist</span>():
+        text <span class="p">=</span> reader.<span class="f">readtext</span>(img[y1:y2, x1:x2], detail<span class="p">=</span><span class="n">0</span>)
+        plates.<span class="f">append</span>(<span class="s">""</span>.<span class="f">join</span>(text))
+    <span class="k">return</span> plates</div></div>
+          </div>
+
+          <div class="code-foot"><span><span class="ok">●</span> main · 22130047</span><span>UTF-8</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="sec" id="projects">
+      <div class="container">
+        <div class="split-head">
+          <p class="label reveal">Dự án nổi bật</p>
+          <h2 class="h2 grad reveal" style="--d:.06s">Sản phẩm thật,<br />vấn đề thật</h2>
+          <p class="lead reveal" style="--d:.12s">Những đồ án mình làm từ ý tưởng đến triển khai — full-stack web, bảo mật và học máy.</p>
+        </div>
+
+        <div class="featured">
+          <!-- Farmily -->
+          <article class="p-card reveal">
+            <div class="p-card-grid">
+              <div class="p-info">
+                <div class="p-kicker"><span class="dot"></span><span class="label">Đồ án Web · Full-stack</span></div>
+                <h3>Farmily — Rau củ quả sạch</h3>
+                <p>Nền tảng thương mại điện tử kết nối nông trại chuẩn VietGAP &amp; GlobalGAP với bàn ăn gia đình, loại bỏ trung gian.</p>
+                <ul class="p-list">
+                  <li>Giỏ hàng, thanh toán VNPay, lịch sử đơn &amp; hoàn hàng</li>
+                  <li>Chat realtime với nhân viên hỗ trợ qua Supabase</li>
+                  <li>Dashboard admin: doanh thu, đơn hàng, khuyến mãi</li>
+                  <li>Đăng nhập Email / Google OAuth, bảo mật JWT</li>
+                </ul>
+                <div class="tags"><span class="tag">React 19</span><span class="tag">Tailwind 4</span><span class="tag">Spring Boot 3</span><span class="tag">PostgreSQL</span><span class="tag">Supabase</span><span class="tag">Docker</span></div>
+                <div class="p-links">
+                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/DoAnWeb_WebRauCuQua" target="_blank" rel="noopener">Xem mã nguồn ↗</a>
+                </div>
+              </div>
+              <div class="p-visual" aria-hidden="true">
+                <div class="mock">
+                  <div class="mock-bar"><i></i><i></i><i></i><span class="url">farmily / admin</span></div>
+                  <div class="mock-body">
+                    <div class="mock-side">
+                      <div class="on">Dashboard</div><div>Sản phẩm</div><div>Đơn hàng</div><div>Khách hàng</div><div>Khuyến mãi</div><div>Hỗ trợ</div>
+                    </div>
+                    <div class="mock-main">
+                      <div class="stats">
+                        <div class="stat"><small>Doanh thu</small><b>48.2M</b><em>+12%</em></div>
+                        <div class="stat"><small>Đơn hàng</small><b>1,284</b><em>+8%</em></div>
+                        <div class="stat"><small>Khách</small><b>932</b><em>+5%</em></div>
+                      </div>
+                      <div class="chart">
+                        <span style="height:35%;animation-delay:.05s"></span><span style="height:52%;animation-delay:.1s"></span><span style="height:44%;animation-delay:.15s"></span><span style="height:68%;animation-delay:.2s"></span><span style="height:58%;animation-delay:.25s"></span><span style="height:80%;animation-delay:.3s"></span><span style="height:72%;animation-delay:.35s"></span><span style="height:94%;animation-delay:.4s"></span>
+                      </div>
+                      <div class="orders">
+                        <div><span>#FM-1042 · Cải bó xôi hữu cơ</span><b class="st ok">Đã giao</b></div>
+                        <div><span>#FM-1041 · Cà chua bi VietGAP</span><b class="st">Đang giao</b></div>
+                        <div><span>#FM-1040 · Bơ sáp Đắk Lắk</span><b class="st">Chờ xác nhận</b></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- An toàn bảo mật -->
+          <article class="p-card reverse reveal">
+            <div class="p-card-grid">
+              <div class="p-info">
+                <div class="p-kicker"><span class="dot"></span><span class="label">An toàn &amp; Bảo mật HTTT</span></div>
+                <h3>Bộ công cụ mã hoá</h3>
+                <p>Ứng dụng desktop Java Swing theo mô hình MVC, cài đặt và minh hoạ các thuật toán mã hoá từ cổ điển đến hiện đại.</p>
+                <ul class="p-list">
+                  <li>Cổ điển: Caesar, Affine, Vigenère, Hill, Substitution, Permutation</li>
+                  <li>Đối xứng: AES, DES · Bất đối xứng: RSA</li>
+                  <li>Hàm băm, tích hợp thư viện Bouncy Castle</li>
+                </ul>
+                <div class="tags"><span class="tag">Java</span><span class="tag">Swing</span><span class="tag">MVC</span><span class="tag">JCA</span><span class="tag">Bouncy Castle</span></div>
+                <div class="p-links">
+                  <a class="btn btn-ghost" href="https://github.com/chutoanduc2601/AnToanBaoMatHTTT" target="_blank" rel="noopener">Xem mã nguồn ↗</a>
+                </div>
+              </div>
+              <div class="p-visual">
+                <div class="cipher">
+                  <div class="cipher-head" role="tablist" aria-label="Thuật toán">
+                    <button class="tab" role="tab" aria-selected="true" data-algo="caesar">Caesar</button>
+                    <button class="tab" role="tab" aria-selected="false" data-algo="vigenere">Vigenère</button>
+                    <button class="tab" role="tab" aria-selected="false" data-algo="affine">Affine</button>
+                  </div>
+                  <div class="cipher-body">
+                    <div class="field"><label for="plain">Bản rõ</label><input id="plain" value="Hello NLU" maxlength="60" autocomplete="off" spellcheck="false" /></div>
+                    <div class="field"><label for="cipher-out">Bản mã</label><output id="cipher-out" for="plain"></output></div>
+                    <div class="cipher-meta"><span id="cipher-key">key = 3</span><span>thử gõ vào ô bản rõ ✎</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-cards">
+          <article class="s-card reveal" style="--d:0s">
+            <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-7-10a4 4 0 017-2.65A4 4 0 0119 11c0 5.65-7 10-7 10z"/></svg></div>
+            <h3>Mùa Hè Xanh</h3>
+            <p>Hệ thống đăng ký tình nguyện trực tuyến — sinh viên đăng ký dự án, admin duyệt / từ chối đơn. Làm theo quy trình Scrum.</p>
+            <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Spring Security</span><span class="tag">Scrum</span></div>
+            <a class="text-link" href="https://github.com/chutoanduc2601/MuaHeXanh_DoAnChuyenNganh_Scrum" target="_blank" rel="noopener">Xem trên GitHub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </article>
+          <article class="s-card reveal" style="--d:.08s">
+            <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h2M11 12h2M15 12h2"/></svg></div>
+            <h3>Nhận diện biển số xe</h3>
+            <p>Phát hiện biển số bằng YOLOv8 và đọc ký tự bằng CRNN / EasyOCR. Tự chuẩn bị, gán nhãn và chia dataset 70/20/10.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">YOLOv8</span><span class="tag">OpenCV</span><span class="tag">EasyOCR</span></div>
+            <a class="text-link" href="https://github.com/chutoanduc2601/NhanDienBienSo_ML" target="_blank" rel="noopener">Xem trên GitHub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </article>
+          <article class="s-card reveal" style="--d:0s">
+            <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></div>
+            <h3>Info Agent System</h3>
+            <p>Hệ thống full-stack xây dựng agent xử lý thông tin, kèm AI service riêng cho bài toán dự báo thời tiết bằng LSTM.</p>
+            <div class="tags"><span class="tag">React</span><span class="tag">Spring Boot</span><span class="tag">Python</span><span class="tag">LSTM</span></div>
+            <a class="text-link" href="https://github.com/chutoanduc2601/InfoAgentSystem" target="_blank" rel="noopener">Xem trên GitHub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </article>
+          <article class="s-card reveal" style="--d:.08s">
+            <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-6 6.5-6 10a6 6 0 0012 0c0-3.5-2-7-6-10z"/><path d="M12 21v-8"/></svg></div>
+            <h3>TickNets-CBAM</h3>
+            <p>Khoá luận tốt nghiệp — mạng nhẹ TickNets kết hợp attention CBAM để phân loại bệnh trên lá cây (PlantVillage).</p>
+            <div class="tags"><span class="tag">PyTorch</span><span class="tag">CBAM</span><span class="tag">Jupyter</span><span class="tag">LaTeX</span></div>
+            <a class="text-link" href="#thesis">Đọc thêm <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= THESIS ================= -->
+    <section class="sec" id="thesis">
+      <div class="container center">
+        <div class="orb-wrap reveal"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-6 6.5-6 10a6 6 0 0012 0c0-3.5-2-7-6-10z"/><path d="M12 21v-8M12 15l-3-2M12 13l3-2"/></svg></div></div>
+        <h2 class="h2 grad reveal">Khoá luận tốt nghiệp</h2>
+        <p class="lead reveal" style="--d:.08s">Nghiên cứu cải tiến TickNets bằng cơ chế attention CBAM cho bài toán phân loại ảnh — áp dụng nhận diện bệnh trên lá cây, đúng tinh thần Nông Lâm.</p>
+
+        <div class="diagram-win reveal" style="--d:.16s">
+          <div class="tabs"><span class="tab" aria-selected="true">architecture.png</span><span class="tab">TickNets_CBAM_PlantVillage.ipynb</span></div>
+          <div class="diagram">
+            <div class="flow" role="img" aria-label="Kiến trúc: ảnh đầu vào, khối TickNet, CBAM gồm channel attention và spatial attention, global pooling, bộ phân loại">
+              <div class="node">Ảnh lá cây<small>224×224×3</small></div><span class="arrow"></span>
+              <div class="node">Stem Conv<small>3×3</small></div><span class="arrow"></span>
+              <div class="node">Tick Block<small>× N</small></div><span class="arrow"></span>
+              <div class="node-group">
+                <div class="node hl">Channel Attention<small>MLP · avg+max</small></div>
+                <div class="node hl">Spatial Attention<small>7×7 conv</small></div>
+              </div><span class="arrow"></span>
+              <div class="node">Global Pool</div><span class="arrow"></span>
+              <div class="node">Classifier<small>softmax</small></div>
+            </div>
+          </div>
+          <div class="thesis-meta">
+            <div><b>TickNets</b><span>Mạng CNN nhẹ, ít tham số</span></div>
+            <div><b>CBAM</b><span>Attention theo kênh &amp; không gian</span></div>
+            <div><b>PlantVillage</b><span>Dataset bệnh trên lá cây</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ================= EDUCATION ================= -->
+    <section class="sec" id="education">
+      <div class="container">
+        <div class="split-head">
+          <div class="orb-wrap left reveal"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div></div>
+          <h2 class="h2 grad reveal">Nền tảng<br />vững chắc</h2>
+          <p class="lead reveal" style="--d:.08s">Bốn năm học Công nghệ Thông tin với nhiều đồ án nhóm, từ thiết kế cơ sở dữ liệu đến triển khai sản phẩm.</p>
+        </div>
+
+        <div class="edu-card reveal" style="--d:.12s">
+          <div class="edu-main">
+            <span class="label">Đại học · Kỹ sư / Cử nhân</span>
+            <h3>Trường Đại học Nông Lâm TP.HCM</h3>
+            <p>Khoa Công nghệ Thông tin — ngành Công nghệ Thông tin.</p>
+          </div>
+          <div class="edu-facts">
+            <div class="fact"><span>MSSV</span><b class="mono">22130047</b></div>
+            <div class="fact"><span>Niên khoá</span><b>2022 – 2026</b></div>
+            <div class="fact"><span>GPA</span><b class="ph">[cập nhật]</b></div>
+            <div class="fact"><span>Ngoại ngữ</span><b class="ph">[TOEIC / IELTS]</b></div>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature reveal" style="--d:0s">
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>Làm việc theo Scrum</h3>
+            <p>Đồ án chuyên ngành Mùa Hè Xanh chia sprint, backlog và review như một team sản phẩm thật.</p>
+          </div>
+          <div class="feature reveal" style="--d:.08s">
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h10M4 18h6"/></svg>Kiến trúc rõ ràng</h3>
+            <p>Tách lớp controller / service / repository với Spring Boot, MVC với Java Swing, component hoá với React.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section class="sec" id="skills">
+      <div class="container">
+        <div class="split-head">
+          <p class="label reveal">Kỹ năng</p>
+          <h2 class="h2 grad reveal" style="--d:.06s">Đủ rộng để làm<br />trọn một sản phẩm</h2>
+        </div>
+        <div class="skills">
+          <div class="skill reveal" style="--d:0s"><h3><span class="num">01</span>Frontend</h3><ul><li>React, Vite</li><li>TypeScript, JavaScript</li><li>Tailwind CSS, Bootstrap</li><li>Framer Motion</li></ul></div>
+          <div class="skill reveal" style="--d:.08s"><h3><span class="num">02</span>Backend</h3><ul><li>Java, Spring Boot</li><li>Spring Security, JWT, OAuth2</li><li>Spring Data JPA</li><li>REST API</li></ul></div>
+          <div class="skill reveal" style="--d:.16s"><h3><span class="num">03</span>Dữ liệu &amp; Cloud</h3><ul><li>PostgreSQL</li><li>Supabase (Auth, Realtime)</li><li>Docker</li><li>Vercel</li></ul></div>
+          <div class="skill reveal" style="--d:.24s"><h3><span class="num">04</span>AI / ML</h3><ul><li>Python, PyTorch</li><li>YOLOv8, OpenCV</li><li>CNN, Attention (CBAM)</li><li>Jupyter Notebook</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= QUOTE ================= -->
+    <div class="divider"></div>
+    <section class="sec">
+      <div class="container quote">
+        <blockquote class="reveal">“Mình thích những sản phẩm giải quyết vấn đề thật. <span class="dim">Code gọn, giao diện dễ dùng, và luôn học thêm điều mới sau mỗi đồ án.</span>”</blockquote>
+        <div class="author reveal" style="--d:.1s">
+          <div class="avatar">Đ</div>
+          <div><b>Chu Toàn Đức</b><span>Sinh viên CNTT · ĐH Nông Lâm TP.HCM</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ================= HOW I WORK ================= -->
+    <section class="sec">
+      <div class="container center">
+        <div class="orb-wrap reveal"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div>
+        <h2 class="h2 grad reveal">Cách mình làm việc</h2>
+        <p class="lead reveal" style="--d:.08s">Những nguyên tắc mình mang theo vào mỗi dự án.</p>
+        <div class="acc reveal" style="--d:.16s">
+          <details open>
+            <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12l5 5L20 6"/></svg></span>Hiểu bài toán trước khi viết code<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg></summary>
+            <div class="acc-body">Bắt đầu từ người dùng và nghiệp vụ — như Farmily bắt đầu từ câu hỏi “làm sao rau sạch đến tay người mua mà không qua trung gian”.</div>
+          </details>
+          <details>
+            <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>Cấu trúc rõ ràng, dễ bảo trì<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg></summary>
+            <div class="acc-body">Tách tầng, đặt tên rõ nghĩa, DTO tách khỏi entity — để người sau đọc code không phải đoán.</div>
+          </details>
+          <details>
+            <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M15 19c0-2 1.5-3.5 3.5-3.5S21 17 21 19"/></svg></span>Làm việc nhóm qua Git &amp; Scrum<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg></summary>
+            <div class="acc-body">Chia task theo sprint, review code qua pull request, viết README để cả nhóm cùng chạy được dự án.</div>
+          </details>
+          <details>
+            <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v18M3 12h18"/></svg></span>Luôn học thêm<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg></summary>
+            <div class="acc-body">Từ web sang bảo mật, từ YOLO sang attention — mỗi đồ án là một lần mở rộng vùng kiến thức.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="cta" id="contact">
+      <div class="container">
+        <h2 class="display grad reveal">Sẵn sàng cho<br />cơ hội tiếp theo.</h2>
+        <p class="lead reveal" style="--d:.08s">Mình đang tìm vị trí Fresher / Junior Developer. Cùng trò chuyện nhé.</p>
+        <div class="cta-actions reveal" style="--d:.16s">
+          <!-- TODO: thay email thật -->
+          <a class="btn btn-primary" href="mailto:email@example.com">Gửi email cho mình</a>
+          <a class="btn btn-ghost" href="cv.pdf" download>Tải CV</a>
+        </div>
+        <div class="contact-line reveal" style="--d:.24s">
+          <a href="https://github.com/chutoanduc2601" target="_blank" rel="noopener">github.com/chutoanduc2601</a>
+          <!-- TODO: thay link LinkedIn thật -->
+          <a href="#" class="ph">[LinkedIn]</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot reveal">
+      <a href="#top" class="logo"><span class="logo-mark">Đ</span>Toàn Đức</a>
+      <div class="foot-links">
+        <a href="#projects">Dự án</a><a href="#thesis">Khoá luận</a><a href="https://github.com/chutoanduc2601" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span>© <span id="year">2026</span> Chu Toàn Đức · NLU</span>
+    </div>
+  </footer>
+
+  <script>
+    document.body.classList.remove('no-js');
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach((el) => io.observe(el));
+    } else {
+      reveals.forEach((el) => el.classList.add('in'));
+    }
+
+    // Nav border on scroll
+    const nav = document.getElementById('nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const setMenu = (open) => {
+      document.body.classList.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+    document.querySelectorAll('#mobile-menu a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    window.addEventListener('resize', () => { if (window.innerWidth >= 900) setMenu(false); });
+
+    // Code tabs
+    const codeFile = document.getElementById('code-file');
+    document.querySelectorAll('.lang-tile').forEach((tile) => {
+      tile.addEventListener('click', () => {
+        document.querySelectorAll('.lang-tile').forEach((t) => t.setAttribute('aria-selected', 'false'));
+        tile.setAttribute('aria-selected', 'true');
+        codeFile.textContent = tile.dataset.file;
+        document.querySelectorAll('.code-panel').forEach((p) => { p.hidden = p.id !== tile.getAttribute('aria-controls'); });
+      });
+    });
+
+    // Cipher demo
+    const shiftChar = (c, fn) => {
+      const code = c.charCodeAt(0);
+      const base = code >= 65 && code <= 90 ? 65 : code >= 97 && code <= 122 ? 97 : null;
+      return base === null ? c : String.fromCharCode(((fn(code - base) % 26) + 26) % 26 + base);
+    };
+    const algos = {
+      caesar: { key: 'key = 3', run: (s) => [...s].map((c) => shiftChar(c, (x) => x + 3)).join('') },
+      vigenere: { key: 'key = "NLU"', run: (s) => { let i = 0; const k = [13, 11, 20];
+        return [...s].map((c) => /[a-z]/i.test(c) ? shiftChar(c, (x) => x + k[i++ % 3]) : c).join(''); } },
+      affine: { key: 'a = 5, b = 8', run: (s) => [...s].map((c) => shiftChar(c, (x) => 5 * x + 8)).join('') },
+    };
+    let algo = 'caesar';
+    const plain = document.getElementById('plain'), out = document.getElementById('cipher-out'), keyEl = document.getElementById('cipher-key');
+    const render = () => { out.textContent = algos[algo].run(plain.value) || '—'; keyEl.textContent = algos[algo].key; };
+    plain.addEventListener('input', render);
+    document.querySelectorAll('[data-algo]').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('[data-algo]').forEach((x) => x.setAttribute('aria-selected', 'false'));
+      b.setAttribute('aria-selected', 'true'); algo = b.dataset.algo; render();
+    }));
+    render();
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
